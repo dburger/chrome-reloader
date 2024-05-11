@@ -1,0 +1,16 @@
+{
+  "name": "Chrome Reloader",
+  "version": "0.0.1.0",
+  "description": "Chrome reloader.",
+  "icons": {
+    // "48": "icon48.png",
+    // "128": "icon128.png"
+  },
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "tabs"
+  ]
+}
