@@ -29,10 +29,10 @@ const reload = () => {
                     });
                 }
             } else {
-                console.log("noreload", tab.url, "tab not found");
+                console.log("noreload", tab.url, "no host match");
             }
         }
     });
 };
 
-setInterval(reload, 10 * 1000);
+setInterval(reload, 300 * 1000);
