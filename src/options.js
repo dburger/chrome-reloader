@@ -1,5 +1,128 @@
+/**
+ * Removes all the children of an element.
+ *
+ * @param elem {HTMLElement} - The element to remove the children of.
+ */
+const removeChildren = (elem) => {
+    while (elem.lastChild) {
+        elem.removeChild(elem.lastChild);
+    }
+}
+
+/**
+ * Creates and returns a td element with text "X" to be used to
+ * delete the row.
+ *
+ * @returns {HTMLTableCellElement} - The created td element.
+ */
+const createDeleteRowTd = () => {
+    const td = createTextTd("X");
+    td.className = "deleter";
+    return td;
+};
+
+/**
+ * Creates and returns a table cell td element with the given text.
+ *
+ * @param text {string} - The text to give the element.
+ * @returns {HTMLTableCellElement} - The created td element.
+ */
+const createTextTd = (text) => {
+    const td = document.createElement("td");
+    td.innerText = text;
+    return td;
+}
+
+/**
+ * Creates and returns a new sites row.
+ *
+ * @param domain {string} - The domain to show in the row.
+ * @returns {HTMLTableRowElement} - The created tr element.
+ */
+const createSitesRow = (domain) => {
+    const tr = document.createElement("tr");
+    tr.appendChild(createDeleteRowTd());
+    tr.appendChild(createTextTd(domain));
+    tr.appendChild(createTextTd("refresh interval"));
+    return tr;
+};
+
+/**
+ * Adds a sites row.
+ *
+ * @param domain {string} - The domain to show in the row.
+ * @param sitesBody {HTMLElement} - The sites tbody to add the row to.
+ *     TODO(dburger): is this a more specific type?
+ */
+const addSitesRow = (domain, sitesBody) => {
+    sitesBody.appendChild(createSitesRow(domain));
+};
+
+/**
+ * Loads the domains into the options page.
+ *
+ * @param domains {string[]} - The array of domain strings to load.
+ */
+const loadDomains = (domains) => {
+    const sitesBody = getSitesBody();
+    removeChildren(sitesBody);
+
+    for (const domain of domains) {
+        addSitesRow(domain, sitesBody);
+    }
+}
+
+/**
+ * Determines if the given element is a deleter element.
+ *
+ * @param target {HTMLElement} - The element to check.
+ * @returns {boolean} - Whether this element is a deleter.
+ */
+const isDeleter = (target) => {
+    return target.tagName === "TD" && target.classList.contains("deleter");
+};
+
+/**
+ * Loads the given settings into the page.
+ *
+ * @param settings {@see makeVersionedSettings}
+ */
+const loadSettings = (settings) => {
+    loadDomains(settings.domains);
+};
+
+/**
+ * Returns a reference to the sites body element.
+ *
+ * @returns {HTMLElement} - The sites body element.
+ */
+const getSitesBody = () => {
+    return document.getElementById("sitesBody");
+};
+
 /** Initial page configuration, loads settings into the page. */
 document.addEventListener("DOMContentLoaded", (evt) => {
-    const sitesBody = document.getElementById("sitesBody");
-    console.log(sitesBody);
+    getSettings(loadSettings);
+
+    const saveButton = document.getElementById("save");
+    const reloadButton = document.getElementById("reload");
+
+    const sitesBody = getSitesBody();
+
+    saveButton.addEventListener("click", (evt) => {
+        for (let i = 0; i < sitesBody.childNodes.length; i++) {
+            const row = sitesBody.childNodes[i];
+            console.log(row.childNodes[1].innerText, row.childNodes[2].innerText);
+        }
+    });
+
+    reloadButton.addEventListener("click", (evt) => {
+        getSettings(loadSettings);
+    });
+
+    sitesBody.addEventListener("click", (evt) => {
+        if (isDeleter(evt.target)) {
+            sitesBody.removeChild(evt.target.parentElement);
+        }
+    });
 });
