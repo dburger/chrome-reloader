@@ -12,7 +12,6 @@ const DEFAULT_DOMAINS = [
     "sportsbook.fanduel.com",
     "app.hardrock.bet",
     "az.superbook.com",
-    "az.unibet.com",
 ];
 
 const makeVersionedSettings = (domains) => {
