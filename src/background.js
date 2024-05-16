@@ -20,7 +20,7 @@ const seconds2Millis = (seconds) => {
  * @param domain {string} - The domain to reload tabs for.
  */
 const reload = (domain) => {
-    console.log("looking for", domain);
+    console.log(domain, ":", "reload initiated");
     let found = false;
     chrome.tabs.query({url: "https://*/*"}, (tabs) => {
         for (const tab of tabs) {
@@ -28,16 +28,16 @@ const reload = (domain) => {
             if (host === domain) {
                 found = true;
                 if (tab.active) {
-                    console.log(domain, "not reloaded, tab active", tab.url);
+                    console.log(domain, ":", "not reloaded, tab active", tab.url);
                 } else {
                     chrome.tabs.reload(tab.id, {bypassCache: false}, () => {
-                        console.log(domain, "reloaded", tab.url);
+                        console.log(domain, ":", "reloaded", tab.url);
                     });
                 }
             }
         }
         if (!found) {
-            console.log(domain, "not found");
+            console.log(domain, ":", "not found");
         }
     });
     sites.set(domain, setTimeout(reload, seconds2Millis(300), domain));
@@ -57,7 +57,7 @@ const syncSites = () => {
             if (!sites.has(domain)) {
                 const timeoutId = setTimeout(reload, seconds2Millis(300), domain);
                 sites.set(domain, timeoutId);
-                console.log("reload timeout added for", domain);
+                console.log(domain, ":", "reload timeout added");
             }
         }
 
@@ -66,7 +66,7 @@ const syncSites = () => {
             if (!domains.has(domain)) {
                 clearTimeout(timeoutId);
                 sites.delete(domain);
-                console.log("reload timeout removed for", domain);
+                console.log(domain, ":", "reload timeout removed");
             }
         }
     });
