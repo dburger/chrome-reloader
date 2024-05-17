@@ -1,6 +1,15 @@
 importScripts("./common.js");
 
-// Map of domains to timeout ID for the reload timeout.
+const SYNC_INTERVAL = 10;
+
+class SiteStatus {
+    constructor(interval, timeoutId) {
+        this.interval = interval;
+        this.timeoutId = timeoutId;
+    }
+}
+
+// Map of domains to SiteStatus.
 const sites = new Map();
 
 /**
@@ -14,12 +23,23 @@ const seconds2Millis = (seconds) => {
 };
 
 /**
+ * Sets a reload for the given domain at the given interval.
+ *
+ * @param domain {string} - The domain to reload.
+ * @param interval {number} - Interval for the reload, in seconds.
+ */
+const scheduleReload = (domain, interval) => {
+    const timeoutId = setTimeout(reload, seconds2Millis(interval), domain, interval);
+    sites.set(domain, new SiteStatus(interval, timeoutId));
+};
+
+/**
  * Reloads tabs from the given domain, if any, and sets the next
  * reload timeout for that domain.
  *
  * @param domain {string} - The domain to reload tabs for.
  */
-const reload = (domain) => {
+const reload = (domain, interval) => {
     console.log(domain, ":", "reload initiated");
     let found = false;
     chrome.tabs.query({url: "https://*/*"}, (tabs) => {
@@ -40,7 +60,7 @@ const reload = (domain) => {
             console.log(domain, ":", "not found");
         }
     });
-    sites.set(domain, setTimeout(reload, seconds2Millis(300), domain));
+    scheduleReload(domain, interval);
 };
 
 /**
@@ -50,26 +70,32 @@ const syncSites = () => {
     console.log("syncing sites");
 
     getSettings(settings => {
-        const domains = new Set(settings.domains);
-
-        // Add sites not present.
-        for (const domain of domains) {
-            if (!sites.has(domain)) {
-                const timeoutId = setTimeout(reload, seconds2Millis(300), domain);
-                sites.set(domain, timeoutId);
+        // Add new or adjust existing timeouts.
+        for (const [domain, siteSettings] of Object.entries(settings.sites)) {
+            if (sites.has(domain)) {
+                // check if interval has changed.
+                const siteStatus = sites.get(domain);
+                if (siteStatus.interval !== siteSettings.interval) {
+                    // TODO(dburger): change interval
+                    console.log("change interval", siteStatus.interval, siteSettings.interval);
+                }
+            } else {
+                // add the site
+                scheduleReload(domain, siteSettings.interval);
                 console.log(domain, ":", "reload timeout added");
             }
         }
 
         // Remove sites no longer in the settings.
-        for (const [domain, timeoutId] of sites) {
-            if (!domains.has(domain)) {
-                clearTimeout(timeoutId);
+        for (const [domain, siteStatus] of sites) {
+            if (!settings.sites[domain]) {
+                clearTimeout(siteStatus.timeoutId);
                 sites.delete(domain);
-                console.log(domain, ":", "reload timeout removed");
+                console.log(domain, ":", "reload timeout cleared");
             }
         }
     });
+    setTimeout(syncSites, seconds2Millis(SYNC_INTERVAL));
 };
 
-setInterval(syncSites, seconds2Millis(10));
+syncSites();

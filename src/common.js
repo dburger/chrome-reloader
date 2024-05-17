@@ -1,23 +1,40 @@
-const DEFAULT_DOMAINS = [
-    "play.ballybet.com",
-    "sports.az.betmgm.com",
-    "az.betrivers.com",
-    "www.betus.com.pa",
-    "az.betway.com",
-    "www.bovada.lv",
-    "sportsbook.caesars.com",
-    "www.playdesertdiamond.com",
-    "sportsbook.draftkings.com",
-    "espnbet.com",
-    "sportsbook.fanduel.com",
-    "app.hardrock.bet",
-    "az.superbook.com",
+const DEFAULT_SITES = [
+    ["play.ballybet.com", 300],
+    ["sports.az.betmgm.com", 300],
+    ["az.betrivers.com", 300],
+    ["www.betus.com.pa", 300],
+    ["az.betway.com", 300],
+    ["www.bovada.lv", 300],
+    ["sportsbook.caesars.com", 300],
+    ["www.playdesertdiamond.com", 300],
+    ["sportsbook.draftkings.com", 300],
+    ["espnbet.com", 300],
+    ["sportsbook.fanduel.com", 300],
+    ["app.hardrock.bet", 300],
+    ["az.superbook.com", 300],
 ];
 
-const makeVersionedSettings = (domains) => {
+function makeSiteSetting(domain, interval) {
+    return {
+        domain: domain,
+        interval: interval,
+    };
+}
+
+function makeSiteSettings(sites) {
+    const result = {};
+    for (const site of sites) {
+        const domain = site[0];
+        const interval = site[1];
+        result[domain] = makeSiteSetting(domain, interval);
+    }
+    return result;
+}
+
+const makeVersionedSettings = (sites) => {
     return {
         v1: {
-            domains: domains,
+            sites: makeSiteSettings(sites),
         }
     };
 };
@@ -27,7 +44,7 @@ const getSettings = (callback) => {
         if (Object.keys(s.v1).length > 0) {
             // s.v1 is already what we want.
         } else {
-            s = makeVersionedSettings(DEFAULT_DOMAINS);
+            s = makeVersionedSettings(DEFAULT_SITES);
         }
         callback(s.v1);
     });
