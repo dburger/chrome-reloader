@@ -136,10 +136,14 @@ document.addEventListener("DOMContentLoaded", (evt) => {
     const sitesBody = getSitesBody();
 
     saveButton.addEventListener("click", (evt) => {
+        const sites = [];
         for (let i = 0; i < sitesBody.childNodes.length; i++) {
             const row = sitesBody.childNodes[i];
-            console.log(row.childNodes[1].childNodes[0].value, row.childNodes[2].childNodes[0].value);
+            const domain = row.childNodes[1].childNodes[0].value;
+            const interval = row.childNodes[2].childNodes[0].value;
+            sites.push([domain, interval]);
         }
+        console.log(sites);
     });
 
     reloadButton.addEventListener("click", (evt) => {
