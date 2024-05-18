@@ -22,6 +22,19 @@ const createDeleteRowTd = () => {
 };
 
 /**
+ * Creates and returns an input of type text with the given value.
+ *
+ * @param value {string} - The value to give the text input.
+ * @returns {HTMLInputElement} - The created text input.
+ */
+const createInputText = (value) => {
+    const input = document.createElement("input");
+    input.setAttribute("type", "text");
+    input.value = value;
+    return input;
+};
+
+/**
  * Creates and returns a table cell td element with the given text.
  *
  * @param text {string} - The text to give the element.
@@ -39,11 +52,11 @@ const createTextTd = (text) => {
  * @param domain {string} - The domain to show in the row.
  * @returns {HTMLTableRowElement} - The created tr element.
  */
-const createSitesRow = (domain) => {
+const createSitesRow = (domain, interval) => {
     const tr = document.createElement("tr");
     tr.appendChild(createDeleteRowTd());
-    tr.appendChild(createTextTd(domain));
-    tr.appendChild(createTextTd("refresh interval"));
+    tr.appendChild(createInputText(domain));
+    tr.appendChild(createInputText(interval));
     return tr;
 };
 
@@ -54,21 +67,16 @@ const createSitesRow = (domain) => {
  * @param sitesBody {HTMLElement} - The sites tbody to add the row to.
  *     TODO(dburger): is this a more specific type?
  */
-const addSitesRow = (domain, sitesBody) => {
-    sitesBody.appendChild(createSitesRow(domain));
+const addSitesRow = (domain, interval, sitesBody) => {
+    sitesBody.appendChild(createSitesRow(domain, interval));
 };
 
-/**
- * Loads the domains into the options page.
- *
- * @param domains {string[]} - The array of domain strings to load.
- */
-const loadDomains = (domains) => {
+const loadSites = (sites) => {
     const sitesBody = getSitesBody();
     removeChildren(sitesBody);
 
-    for (const domain of domains) {
-        addSitesRow(domain, sitesBody);
+    for (const [domain, siteSettings] of Object.entries(sites)) {
+        addSitesRow(domain, siteSettings.interval, sitesBody);
     }
 }
 
@@ -88,7 +96,7 @@ const isDeleter = (target) => {
  * @param settings {@see makeVersionedSettings}
  */
 const loadSettings = (settings) => {
-    loadDomains(settings.domains);
+    loadSites(settings.sites);
 };
 
 /**
