@@ -131,6 +131,7 @@ document.addEventListener("DOMContentLoaded", (evt) => {
 
     const saveButton = document.getElementById("save");
     const reloadButton = document.getElementById("reload");
+    const defaultsButton = document.getElementById("defaults");
     const addSiteButton = document.getElementById("addSite");
 
     const sitesBody = getSitesBody();
@@ -152,6 +153,11 @@ document.addEventListener("DOMContentLoaded", (evt) => {
     });
 
     reloadButton.addEventListener("click", (evt) => {
+        getSettings(loadSettings);
+    });
+
+    defaultsButton.addEventListener("click", (evt) => {
+        chrome.storage.sync.clear();
         getSettings(loadSettings);
     });
 
