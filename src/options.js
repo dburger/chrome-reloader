@@ -143,7 +143,12 @@ document.addEventListener("DOMContentLoaded", (evt) => {
             const interval = row.childNodes[2].childNodes[0].value;
             sites.push([domain, interval]);
         }
-        console.log(sites);
+
+        setSettings(sites, () => {
+            if (chrome.runtime.lastError) {
+                window.alert(chrome.runtime.lastError.message);
+            }
+        });
     });
 
     reloadButton.addEventListener("click", (evt) => {

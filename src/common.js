@@ -40,7 +40,7 @@ const makeSiteSettings = (sites) => {
 const makeVersionedSettings = (sites) => {
     return {
         v1: {
-            sites: makeSiteSettings(sites),
+            sites: sites,
         }
     };
 };
@@ -50,8 +50,18 @@ const getSettings = (callback) => {
         if (Object.keys(s.v1).length > 0) {
             // s.v1 is already what we want.
         } else {
-            s = makeVersionedSettings(DEFAULT_SITES);
+            s = makeVersionedSettings(makeSiteSettings(DEFAULT_SITES));
         }
         callback(s.v1);
     });
+}
+
+const setVersionedSettings = (sites, callback) => {
+    // Prior version cleanup, when needed, is done here.
+    const settings = makeVersionedSettings(sites);
+    chrome.storage.sync.set(settings, callback);
+}
+
+const setSettings = (sites, callback) => {
+    setVersionedSettings(makeSiteSettings(sites), callback);
 }
