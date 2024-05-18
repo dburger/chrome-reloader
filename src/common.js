@@ -14,14 +14,12 @@ const DEFAULT_SITES = [
     ["az.superbook.com", 300],
 ];
 
-function makeSiteSetting(domain, interval) {
-    return {
-        domain: domain,
-        interval: interval,
-    };
-}
+const makeSiteSetting = (domain, interval) => ({
+    domain: domain,
+    interval: interval,
+});
 
-function makeSiteSettings(sites) {
+const makeSiteSettings = (sites) => {
     const result = {};
     for (const site of sites) {
         const domain = site[0];
@@ -29,7 +27,7 @@ function makeSiteSettings(sites) {
         result[domain] = makeSiteSetting(domain, interval);
     }
     return result;
-}
+};
 
 const makeVersionedSettings = (sites) => {
     return {
