@@ -47,6 +47,23 @@ const createTextTd = (text) => {
 }
 
 /**
+ * Creates and returns a td element containing a text input element with
+ * the given value.
+ *
+ * @param value {string} - The value to give the text input element.
+ * @param className {string} - The class name to give the td, if any.
+ * @returns {HTMLTableCellElement} - The created td element.
+ */
+const createInputTd = (value, className) => {
+    const td = document.createElement("td");
+    td.appendChild(createInputText(value));
+    if (className) {
+        td.className = className;
+    }
+    return td;
+}
+
+/**
  * Creates and returns a new sites row.
  *
  * @param domain {string} - The domain to show in the row.
@@ -55,8 +72,8 @@ const createTextTd = (text) => {
 const createSitesRow = (domain, interval) => {
     const tr = document.createElement("tr");
     tr.appendChild(createDeleteRowTd());
-    tr.appendChild(createInputText(domain));
-    tr.appendChild(createInputText(interval));
+    tr.appendChild(createInputTd(domain));
+    tr.appendChild(createInputTd(interval));
     return tr;
 };
 
@@ -114,18 +131,23 @@ document.addEventListener("DOMContentLoaded", (evt) => {
 
     const saveButton = document.getElementById("save");
     const reloadButton = document.getElementById("reload");
+    const addSiteButton = document.getElementById("addSite");
 
     const sitesBody = getSitesBody();
 
     saveButton.addEventListener("click", (evt) => {
         for (let i = 0; i < sitesBody.childNodes.length; i++) {
             const row = sitesBody.childNodes[i];
-            console.log(row.childNodes[1].innerText, row.childNodes[2].innerText);
+            console.log(row.childNodes[1].childNodes[0].value, row.childNodes[2].childNodes[0].value);
         }
     });
 
     reloadButton.addEventListener("click", (evt) => {
         getSettings(loadSettings);
+    });
+
+    addSiteButton.addEventListener("click", (evt) => {
+        addSitesRow("", 300, sitesBody);
     });
 
     sitesBody.addEventListener("click", (evt) => {
