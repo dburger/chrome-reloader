@@ -14,6 +14,14 @@ const DEFAULT_SITES = [
     ["az.superbook.com", 300],
 ];
 
+/**
+ * Returns the site settings literal object for the given domain. This is
+ * used for storage.
+ *
+ * @param {string} domain - The domain to make site settings for.
+ * @param {number} interval - The number of seconds between reloads.
+ * @returns {{domain:string, interval:string}} - The site settings literal object.
+ */
 const makeSiteSetting = (domain, interval) => ({
     domain: domain,
     interval: interval,
