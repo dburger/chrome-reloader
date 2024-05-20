@@ -14,21 +14,7 @@ class SiteStatus {
 }
 
 /**
- * Returns the milliseconds value for the given seconds.
- *
- * @param seconds {number} - Seconds to convert to milliseconds.
- * @returns {number} - The number of milliseconds.
- */
-const seconds2Millis = (seconds) => {
-    return seconds * 1000;
-};
-
-const randomInt = (max) => {
-    return Math.floor(Math.random() * (max + 1));
-};
-
-/**
- * Sets a reload for the given domain at the given interval.
+ * Schedules a reload for the given domain at the given interval.
  *
  * @param domain {string} - The domain to reload.
  * @param interval {number} - Interval for the reload, in seconds.
@@ -42,10 +28,11 @@ const scheduleReload = (domain, interval, wobble) => {
 };
 
 /**
- * Reloads tabs from the given domain, if any, and sets the next
- * reload timeout for that domain.
+ * Reloads tabs from the given domain and schedules the next reload.
  *
  * @param domain {string} - The domain to reload tabs for.
+ * @param interval {number} - Interval for the reload, in seconds.
+ * @param wobble {number} - Wobble for the reload, in seconds.
  */
 const reload = (domain, interval, wobble) => {
     console.log(domain, ":", "reload initiated");

@@ -15,6 +15,26 @@ const DEFAULT_SITES = [
 ];
 
 /**
+ * Returns the milliseconds value for the given seconds.
+ *
+ * @param seconds {number} - Seconds to convert to milliseconds.
+ * @returns {number} - The number of milliseconds.
+ */
+const seconds2Millis = (seconds) => {
+    return seconds * 1000;
+};
+
+/**
+ * Returns a random int from [0, max].
+ *
+ * @param max {number} - The max value for the random int.
+ * @returns {number} - A random int from [0, max].
+ */
+const randomInt = (max) => {
+    return Math.floor(Math.random() * (max + 1));
+};
+
+/**
  * Returns the site settings literal object for the given domain. This is
  * used for storage.
  *
