@@ -1,17 +1,17 @@
 const DEFAULT_SITES = [
-    ["play.ballybet.com", 300],
-    ["sports.az.betmgm.com", 300],
-    ["az.betrivers.com", 300],
-    ["www.betus.com.pa", 300],
-    ["az.betway.com", 300],
-    ["www.bovada.lv", 300],
-    ["sportsbook.caesars.com", 300],
-    ["www.playdesertdiamond.com", 300],
-    ["sportsbook.draftkings.com", 300],
-    ["espnbet.com", 300],
-    ["sportsbook.fanduel.com", 300],
-    ["app.hardrock.bet", 300],
-    ["az.superbook.com", 300],
+    ["play.ballybet.com", 300, 20],
+    ["sports.az.betmgm.com", 300, 20],
+    ["az.betrivers.com", 300, 20],
+    ["www.betus.com.pa", 300, 20],
+    ["az.betway.com", 300, 20],
+    ["www.bovada.lv", 300, 20],
+    ["sportsbook.caesars.com", 300, 20],
+    ["www.playdesertdiamond.com", 300, 20],
+    ["sportsbook.draftkings.com", 300, 20],
+    ["espnbet.com", 300, 20],
+    ["sportsbook.fanduel.com", 300, 20],
+    ["app.hardrock.bet", 300, 20],
+    ["az.superbook.com", 300, 20],
 ];
 
 /**
@@ -20,11 +20,13 @@ const DEFAULT_SITES = [
  *
  * @param {string} domain - The domain to make site settings for.
  * @param {number} interval - The number of seconds between reloads.
- * @returns {{domain:string, interval:string}} - The site settings literal object.
+ * @param {number} wobble - The max number of seconds for a randomly chosen premature reload.
+ * @returns {{domain:string, interval:number, wobble:number}} - The site settings literal object.
  */
-const makeSiteSetting = (domain, interval) => ({
+const makeSiteSetting = (domain, interval, wobble) => ({
     domain: domain,
     interval: interval,
+    wobble: wobble,
 });
 
 const makeSiteSettings = (sites) => {
@@ -32,7 +34,8 @@ const makeSiteSettings = (sites) => {
     for (const site of sites) {
         const domain = site[0];
         const interval = site[1];
-        result[domain] = makeSiteSetting(domain, interval);
+        const wobble = site[2];
+        result[domain] = makeSiteSetting(domain, interval, wobble);
     }
     return result;
 };

@@ -2,15 +2,16 @@ importScripts("./common.js");
 
 const SYNC_INTERVAL = 10;
 
+// Map of domains to SiteStatus.
+const sites = new Map();
+
 class SiteStatus {
-    constructor(interval, timeoutId) {
+    constructor(interval, wobble, timeoutId) {
         this.interval = interval;
+        this.wobble = wobble;
         this.timeoutId = timeoutId;
     }
 }
-
-// Map of domains to SiteStatus.
-const sites = new Map();
 
 /**
  * Returns the milliseconds value for the given seconds.
@@ -22,15 +23,22 @@ const seconds2Millis = (seconds) => {
     return seconds * 1000;
 };
 
+const randomInt = (max) => {
+    return Math.floor(Math.random() * (max + 1));
+};
+
 /**
  * Sets a reload for the given domain at the given interval.
  *
  * @param domain {string} - The domain to reload.
  * @param interval {number} - Interval for the reload, in seconds.
+ * @param wobble {number} - Wobble for the reload, in seconds.
  */
-const scheduleReload = (domain, interval) => {
-    const timeoutId = setTimeout(reload, seconds2Millis(interval), domain, interval);
-    sites.set(domain, new SiteStatus(interval, timeoutId));
+const scheduleReload = (domain, interval, wobble) => {
+    const timeout = interval - randomInt(wobble);
+    console.log("scheduling", domain, timeout);
+    const timeoutId = setTimeout(reload, seconds2Millis(timeout), domain, interval, wobble);
+    sites.set(domain, new SiteStatus(interval, wobble, timeoutId));
 };
 
 /**
@@ -39,7 +47,7 @@ const scheduleReload = (domain, interval) => {
  *
  * @param domain {string} - The domain to reload tabs for.
  */
-const reload = (domain, interval) => {
+const reload = (domain, interval, wobble) => {
     console.log(domain, ":", "reload initiated");
     let found = false;
     chrome.tabs.query({url: "https://*/*"}, (tabs) => {
@@ -60,7 +68,7 @@ const reload = (domain, interval) => {
             console.log(domain, ":", "not found");
         }
     });
-    scheduleReload(domain, interval);
+    scheduleReload(domain, interval, wobble);
 };
 
 /**
@@ -81,7 +89,7 @@ const syncSites = () => {
                 }
             } else {
                 // add the site
-                scheduleReload(domain, siteSettings.interval);
+                scheduleReload(domain, siteSettings.interval, siteSettings.wobble);
                 console.log(domain, ":", "reload timeout added");
             }
         }

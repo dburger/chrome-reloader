@@ -69,11 +69,12 @@ const createInputTd = (value, className) => {
  * @param domain {string} - The domain to show in the row.
  * @returns {HTMLTableRowElement} - The created tr element.
  */
-const createSitesRow = (domain, interval) => {
+const createSitesRow = (domain, interval, wobble) => {
     const tr = document.createElement("tr");
     tr.appendChild(createDeleteRowTd());
     tr.appendChild(createInputTd(domain));
     tr.appendChild(createInputTd(interval));
+    tr.appendChild(createInputTd(wobble));
     return tr;
 };
 
@@ -84,8 +85,8 @@ const createSitesRow = (domain, interval) => {
  * @param sitesBody {HTMLElement} - The sites tbody to add the row to.
  *     TODO(dburger): is this a more specific type?
  */
-const addSitesRow = (domain, interval, sitesBody) => {
-    sitesBody.appendChild(createSitesRow(domain, interval));
+const addSitesRow = (domain, interval, wobble, sitesBody) => {
+    sitesBody.appendChild(createSitesRow(domain, interval, wobble));
 };
 
 const loadSites = (sites) => {
@@ -93,7 +94,7 @@ const loadSites = (sites) => {
     removeChildren(sitesBody);
 
     for (const [domain, siteSettings] of Object.entries(sites)) {
-        addSitesRow(domain, siteSettings.interval, sitesBody);
+        addSitesRow(domain, siteSettings.interval, siteSettings.wobble, sitesBody);
     }
 }
 
@@ -142,7 +143,8 @@ document.addEventListener("DOMContentLoaded", (evt) => {
             const row = sitesBody.childNodes[i];
             const domain = row.childNodes[1].childNodes[0].value;
             const interval = row.childNodes[2].childNodes[0].value;
-            sites.push([domain, interval]);
+            const wobble = row.childNodes[3].childNodes[0].value;
+            sites.push([domain, interval, wobble]);
         }
 
         setSettings(sites, () => {
