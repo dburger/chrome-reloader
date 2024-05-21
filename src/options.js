@@ -67,6 +67,8 @@ const createInputTd = (value, className) => {
  * Creates and returns a new sites row.
  *
  * @param domain {string} - The domain to show in the row.
+ * @param interval {number} - Interval for the reload, in seconds.
+ * @param wobble {number} - Wobble for the reload, in seconds.
  * @returns {HTMLTableRowElement} - The created tr element.
  */
 const createSitesRow = (domain, interval, wobble) => {
@@ -82,6 +84,8 @@ const createSitesRow = (domain, interval, wobble) => {
  * Adds a sites row.
  *
  * @param domain {string} - The domain to show in the row.
+ * @param interval {number} - Interval for the reload, in seconds.
+ * @param wobble {number} - Wobble for the reload, in seconds.
  * @param sitesBody {HTMLElement} - The sites tbody to add the row to.
  *     TODO(dburger): is this a more specific type?
  */
