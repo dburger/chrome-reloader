@@ -48,6 +48,9 @@ const reload = (domain, interval, wobble) => {
                     chrome.tabs.reload(tab.id, {bypassCache: false}, () => {
                         console.log(domain, ":", "reloaded", tab.url);
                     });
+                    // Presumably, if there are more than one tabs for a domain open, we
+                    // only need to reload one of them to prevent a login timeout.
+                    break;
                 }
             }
         }
