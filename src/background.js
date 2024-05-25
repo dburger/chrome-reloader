@@ -71,11 +71,12 @@ const syncSites = () => {
         // Add new or adjust existing timeouts.
         for (const [domain, siteSettings] of Object.entries(settings.sites)) {
             if (sites.has(domain)) {
-                // check if interval has changed.
+                // check if interval or wobble has changed.
                 const siteStatus = sites.get(domain);
-                if (siteStatus.interval !== siteSettings.interval) {
-                    // TODO(dburger): change interval
-                    console.log("change interval", siteStatus.interval, siteSettings.interval);
+                if (siteStatus.interval !== siteSettings.interval || siteStatus.wobble !== siteSettings.wobble) {
+                    siteStatus.interval = siteSettings.interval;
+                    siteStatus.wobble = siteSettings.wobble;
+                    console.log(domain, ":", "interval and/or wobble change");
                 }
             } else {
                 // add the site
