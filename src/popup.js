@@ -1,6 +1,6 @@
 const title = document.getElementById("title");
-const intervalCell = document.getElementById("interval");
-const wobbleCell = document.getElementById("wobble");
+const intervalText = document.getElementById("interval");
+const wobbleText = document.getElementById("wobble");
 
 chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
     const url = new URL(tabs[0].url);
@@ -8,8 +8,8 @@ chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
     getSettings(settings => {
         const siteSettings = settings.sites[url.host];
         if (siteSettings) {
-            intervalCell.innerText = siteSettings.interval;
-            wobbleCell.innerText = siteSettings.wobble;
+            intervalText.value = siteSettings.interval;
+            wobbleText.value = siteSettings.wobble;
         }
     });
 });
