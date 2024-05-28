@@ -168,7 +168,7 @@ document.addEventListener("DOMContentLoaded", (evt) => {
     });
 
     addSiteButton.addEventListener("click", (evt) => {
-        addSitesRow("", 300, sitesBody);
+        addSitesRow("", DEFAULT_INTERVAL, DEFAULT_WOBBLE, sitesBody);
     });
 
     sitesBody.addEventListener("click", (evt) => {

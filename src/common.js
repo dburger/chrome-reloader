@@ -14,6 +14,9 @@ const DEFAULT_SITES = [
     ["az.superbook.com", 300, 20],
 ];
 
+const DEFAULT_INTERVAL = 300;
+const DEFAULT_WOBBLE = 60;
+
 /**
  * Returns the milliseconds value for the given seconds.
  *
