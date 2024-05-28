@@ -1,18 +1,5 @@
-const DEFAULT_SITES = [
-    ["play.ballybet.com", 300, 20],
-    ["sports.az.betmgm.com", 300, 20],
-    ["az.betrivers.com", 300, 20],
-    ["www.betus.com.pa", 300, 20],
-    ["az.betway.com", 300, 20],
-    ["www.bovada.lv", 300, 20],
-    ["sportsbook.caesars.com", 300, 20],
-    ["www.playdesertdiamond.com", 300, 20],
-    ["sportsbook.draftkings.com", 300, 20],
-    ["espnbet.com", 300, 20],
-    ["sportsbook.fanduel.com", 300, 20],
-    ["app.hardrock.bet", 300, 20],
-    ["az.superbook.com", 300, 20],
-];
+// Default sites? There are no default sites.
+const DEFAULT_SITES = [];
 
 const DEFAULT_INTERVAL = 300;
 const DEFAULT_WOBBLE = 60;
