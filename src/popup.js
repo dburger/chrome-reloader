@@ -20,6 +20,8 @@ chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
         addModifySiteSetting(domain, interval, wobble, () => {
             if (chrome.runtime.lastError) {
                 window.alert(chrome.runtime.lastError.message);
+            } else {
+                window.close();
             }
         });
     });
@@ -28,6 +30,8 @@ chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
         deleteSiteSetting(domain, () => {
             if (chrome.runtime.lastError) {
                 window.alert(chrome.runtime.lastError.message);
+            } else {
+                window.close();
             }
         });
     });
