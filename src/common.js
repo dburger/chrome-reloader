@@ -100,3 +100,17 @@ const addModifySiteSetting = (domain, interval, wobble, callback) => {
         setVersionedSettings(settings.sites, callback);
     });
 };
+
+/**
+ * Deletes the site settings for the given domain.
+ *
+ * @param {string} domain - The domain of the site to remove from site settings.
+ * @param {function} callback - Callback upon completion of the removal
+ *     of the site setting.
+ */
+const deleteSiteSetting = (domain, callback) => {
+    getSettings(settings => {
+        delete settings.sites[domain];
+        setVersionedSettings(settings.sites, callback);
+    });
+};

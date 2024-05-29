@@ -24,6 +24,14 @@ chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
         });
     });
 
+    deleteButton.addEventListener("click", (evt) => {
+        deleteSiteSetting(domain, () => {
+            if (chrome.runtime.lastError) {
+                window.alert(chrome.runtime.lastError.message);
+            }
+        });
+    });
+
     getSettings(settings => {
         const siteSettings = settings.sites[domain];
         if (siteSettings) {
