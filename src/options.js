@@ -146,8 +146,8 @@ document.addEventListener("DOMContentLoaded", (evt) => {
         for (let i = 0; i < sitesBody.childNodes.length; i++) {
             const row = sitesBody.childNodes[i];
             const domain = row.childNodes[1].childNodes[0].value;
-            const interval = row.childNodes[2].childNodes[0].value;
-            const wobble = row.childNodes[3].childNodes[0].value;
+            const interval = parseInt(row.childNodes[2].childNodes[0].value);
+            const wobble = parseInt(row.childNodes[3].childNodes[0].value);
             sites.push([domain, interval, wobble]);
         }
 
