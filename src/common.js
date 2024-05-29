@@ -78,3 +78,25 @@ const setVersionedSettings = (sites, callback) => {
 const setSettings = (sites, callback) => {
     setVersionedSettings(makeSiteSettings(sites), callback);
 }
+
+/**
+ * Adds a new, or modifies an existing, site setting.
+ *
+ * @param {string} domain - The domain of the site.
+ * @param {number} interval - The interval for reloads.
+ * @param {number} wobble - The wobble for the interval.
+ * @param {function} callback - Callback upon completion of the storage
+ *     of the site setting.
+ */
+const addModifySiteSetting = (domain, interval, wobble, callback) => {
+    getSettings(settings => {
+        const siteSettings = settings.sites[domain];
+        if (siteSettings) {
+            siteSettings.interval = interval;
+            siteSettings.wobble = wobble;
+        } else {
+            settings[domain] = makeSiteSetting(domain, interval, wobble);
+        }
+        setVersionedSettings(settings.sites, callback);
+    });
+};

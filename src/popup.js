@@ -11,10 +11,21 @@ defaultsButton.addEventListener("click", (evt) => {
 });
 
 chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
-    const url = new URL(tabs[0].url);
-    title.innerText = url.host;
+    const domain = new URL(tabs[0].url).host;
+    title.innerText = domain;
+
+    saveButton.addEventListener("click", (evt) => {
+        const interval = parseInt(intervalText.value);
+        const wobble = parseInt(wobbleText.value);
+        addModifySiteSetting(domain, interval, wobble, () => {
+            if (chrome.runtime.lastError) {
+                window.alert(chrome.runtime.lastError.message);
+            }
+        });
+    });
+
     getSettings(settings => {
-        const siteSettings = settings.sites[url.host];
+        const siteSettings = settings.sites[domain];
         if (siteSettings) {
             intervalText.value = siteSettings.interval;
             wobbleText.value = siteSettings.wobble;
