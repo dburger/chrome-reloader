@@ -21,6 +21,7 @@ class SiteStatus {
  * @param wobble {number} - Wobble for the reload, in seconds.
  */
 const scheduleReload = (domain, interval, wobble) => {
+    console.log("scheduling reload for", domain, "with interval", interval, "and wobble", wobble);
     const timeout = interval - randomInt(wobble);
     console.log("scheduling", domain, timeout);
     const timeoutId = setTimeout(reload, seconds2Millis(timeout), domain, interval, wobble);
@@ -68,6 +69,7 @@ const syncSites = () => {
     console.log("syncing sites");
 
     getSettings(settings => {
+        console.log("keeping", Object.keys(settings.sites).length, "sites");
         // Add new or adjust existing timeouts.
         for (const [domain, siteSettings] of Object.entries(settings.sites)) {
             if (sites.has(domain)) {
