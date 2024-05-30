@@ -90,13 +90,7 @@ const setSettings = (sites, callback) => {
  */
 const addModifySiteSetting = (domain, interval, wobble, callback) => {
     getSettings(settings => {
-        const siteSettings = settings.sites[domain];
-        if (siteSettings) {
-            siteSettings.interval = interval;
-            siteSettings.wobble = wobble;
-        } else {
-            settings.sites[domain] = makeSiteSetting(domain, interval, wobble);
-        }
+        settings.sites[domain] = makeSiteSetting(domain, interval, wobble);
         setVersionedSettings(settings.sites, callback);
     });
 };
