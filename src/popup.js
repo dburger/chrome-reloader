@@ -4,11 +4,16 @@ const wobbleText = document.getElementById("wobble");
 const saveButton = document.getElementById("save");
 const deleteButton = document.getElementById("delete");
 const defaultsButton = document.getElementById("defaults");
+const cancelButton = document.getElementById("cancel");
 
 defaultsButton.addEventListener("click", (evt) => {
     intervalText.value = DEFAULT_INTERVAL;
     wobbleText.value = DEFAULT_WOBBLE;
 });
+
+cancelButton.addEventListener("click", (evt) => {
+    window.close();
+})
 
 chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
     const domain = new URL(tabs[0].url).host;
