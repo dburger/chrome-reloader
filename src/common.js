@@ -95,6 +95,18 @@ const addModifySiteSetting = (domain, interval, wobble, callback) => {
     });
 };
 
+const addModifySiteSettings = (sites, callback) => {
+    getSettings(settings => {
+        for (const site of sites) {
+            const domain = site[0];
+            const interval = site[1];
+            const wobble = site[2];
+            settings.sites[domain] = makeSiteSetting(domain, interval, wobble);
+        }
+        setVersionedSettings(settings.sites, callback);
+    });
+}
+
 /**
  * Deletes the site settings for the given domain.
  *

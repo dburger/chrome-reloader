@@ -141,6 +141,9 @@ document.addEventListener("DOMContentLoaded", (evt) => {
 
     const sitesBody = getSitesBody();
 
+    const batchText = document.getElementById("batchText");
+    const batchAddButton = document.getElementById("batchAdd");
+
     saveButton.addEventListener("click", (evt) => {
         const sites = [];
         for (let i = 0; i < sitesBody.childNodes.length; i++) {
@@ -175,5 +178,24 @@ document.addEventListener("DOMContentLoaded", (evt) => {
         if (isDeleter(evt.target)) {
             sitesBody.removeChild(evt.target.parentElement);
         }
+    });
+
+    batchAddButton.addEventListener("click", (evt) => {
+        const sites = [];
+        for (const line of batchText.value.split("\n")) {
+            const parts = line.split(" ");
+            if (parts.length !== 3) {
+                continue;
+            }
+            const domain = parts[0];
+            const interval = parseInt(parts[1]);
+            const wobble = parseInt(parts[2]);
+            sites.push([domain, interval, wobble]);
+        }
+        addModifySiteSettings(sites, () => {
+            if (chrome.runtime.lastError) {
+                window.alert(chrome.runtime.lastError.message);
+            }
+        });
     });
 });
