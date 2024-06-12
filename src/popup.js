@@ -22,7 +22,8 @@ chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
     saveButton.addEventListener("click", (evt) => {
         const interval = parseInt(intervalText.value);
         const wobble = parseInt(wobbleText.value);
-        addModifySiteSetting(domain, interval, wobble, () => {
+        const siteSetting = makeSiteSetting(domain, interval, wobble);
+        addModifySiteSetting(siteSetting, () => {
             if (chrome.runtime.lastError) {
                 window.alert(chrome.runtime.lastError.message);
             } else {

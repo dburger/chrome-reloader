@@ -82,15 +82,13 @@ const setSettings = (sites, callback) => {
 /**
  * Adds a new, or modifies an existing, site setting.
  *
- * @param {string} domain - The domain of the site.
- * @param {number} interval - The interval for reloads.
- * @param {number} wobble - The wobble for the interval.
+ * @param TODO(dburger): siteSetting
  * @param {function} callback - Callback upon completion of the storage
  *     of the site setting.
  */
-const addModifySiteSetting = (domain, interval, wobble, callback) => {
+const addModifySiteSetting = (siteSetting, callback) => {
     getSettings(settings => {
-        settings.sites[domain] = makeSiteSetting(domain, interval, wobble);
+        settings.sites[siteSetting.domain] = siteSetting;
         setVersionedSettings(settings.sites, callback);
     });
 };
