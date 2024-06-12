@@ -93,6 +93,8 @@ const addModifySiteSetting = (siteSetting, callback) => {
     });
 };
 
+// TODO(dburger): this should accept array of siteSettings so that the validation
+// can be separated back to the caller.
 const addModifySiteSettings = (sites, callback) => {
     getSettings(settings => {
         for (const site of sites) {
