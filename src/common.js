@@ -69,10 +69,6 @@ const setVersionedSettings = (sites, callback) => {
     chrome.storage.sync.set(settings, callback);
 }
 
-const setSettings = (siteSettings, callback) => {
-    setVersionedSettings(sitesFromSiteSettings(siteSettings), callback);
-}
-
 /**
  * Adds a new, or modifies an existing, site setting.
  *
@@ -94,6 +90,10 @@ const addModifySiteSettings = (siteSettings, callback) => {
         }
         setVersionedSettings(settings.sites, callback);
     });
+}
+
+const setSettings = (siteSettings, callback) => {
+    setVersionedSettings(sitesFromSiteSettings(siteSettings), callback);
 }
 
 /**
