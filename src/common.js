@@ -21,6 +21,27 @@ const randomInt = (max) => {
     return Math.floor(Math.random() * (max + 1));
 };
 
+class InvalidSiteSettingError extends Error {
+    constructor(domain, interval, wobble, problems) {
+        super(`Site setting with domain ${domain}, interval ${interval}, and wobble ${wobble} is invalid.`);
+        this.problems = problems;
+    }
+}
+
+const validateSiteSetting = (domain, interval, wobble) => {
+    const errors = [];
+    if (typeof domain !== "string") {
+        errors.push("domain must be a string");
+    }
+    if (!Number.isInteger(interval) || interval < 60) {
+        errors.push("interval must be an integer >= 60");
+    }
+    if (!Number.isInteger(wobble) || wobble < 0 || wobble > interval) {
+        errors.push("wobble must be an integer (0, interval]");
+    }
+    return errors;
+};
+
 /**
  * Returns the site settings literal object for the given domain. This is
  * used for storage.
@@ -30,11 +51,18 @@ const randomInt = (max) => {
  * @param {number} wobble - The max number of seconds for a randomly chosen premature reload.
  * @returns {{domain:string, interval:number, wobble:number}} - The site settings literal object.
  */
-const makeSiteSetting = (domain, interval, wobble) => ({
-    domain: domain,
-    interval: interval,
-    wobble: wobble,
-});
+const makeSiteSetting = (domain, interval, wobble) => {
+    const problems = validateSiteSetting(domain, interval, wobble);
+    if (problems.length > 0) {
+        throw new InvalidSiteSettingError(domain, interval, wobble, problems);
+    }
+
+    return {
+        domain: domain,
+        interval: interval,
+        wobble: wobble,
+    };
+};
 
 const sitesFromSiteSettings = (siteSettings) => {
     const result = {};

@@ -22,14 +22,17 @@ chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
     saveButton.addEventListener("click", (evt) => {
         const interval = parseInt(intervalText.value);
         const wobble = parseInt(wobbleText.value);
-        const siteSetting = makeSiteSetting(domain, interval, wobble);
-        addModifySiteSetting(siteSetting, () => {
-            if (chrome.runtime.lastError) {
-                window.alert(chrome.runtime.lastError.message);
-            } else {
-                window.close();
-            }
-        });
+        try {
+            addModifySiteSetting(makeSiteSetting(domain, interval, wobble), () => {
+                if (chrome.runtime.lastError) {
+                    window.alert(chrome.runtime.lastError.message);
+                } else {
+                    window.close();
+                }
+            });
+        } catch (exc) {
+            console.log("siteSetting was invalid and was ignored.");
+        }
     });
 
     deleteButton.addEventListener("click", (evt) => {

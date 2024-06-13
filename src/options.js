@@ -151,7 +151,11 @@ document.addEventListener("DOMContentLoaded", (evt) => {
             const domain = row.childNodes[1].childNodes[0].value;
             const interval = parseInt(row.childNodes[2].childNodes[0].value);
             const wobble = parseInt(row.childNodes[3].childNodes[0].value);
-            siteSettings.push(makeSiteSetting(domain, interval, wobble));
+            try {
+                siteSettings.push(makeSiteSetting(domain, interval, wobble));
+            } catch (exc) {
+                console.log("siteSetting was invalid and was ignored.");
+            }
         }
 
         setSettings(siteSettings, () => {
@@ -190,7 +194,11 @@ document.addEventListener("DOMContentLoaded", (evt) => {
             const domain = parts[0];
             const interval = parseInt(parts[1]);
             const wobble = parseInt(parts[2]);
-            siteSettings.push(makeSiteSetting(domain, interval, wobble));
+            try {
+                siteSettings.push(makeSiteSetting(domain, interval, wobble));
+            } catch (exc) {
+                console.log("siteSetting was invalid and was ignored.");
+            }
         }
         addModifySiteSettings(siteSettings, () => {
             if (chrome.runtime.lastError) {
