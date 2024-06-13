@@ -1,6 +1,3 @@
-// Default sites? There are no default sites.
-const DEFAULT_SITES = [];
-
 const DEFAULT_INTERVAL = 300;
 const DEFAULT_WOBBLE = 60;
 
@@ -39,16 +36,13 @@ const makeSiteSetting = (domain, interval, wobble) => ({
     wobble: wobble,
 });
 
-const makeSiteSettings = (sites) => {
+const sitesFromSiteSettings = (siteSettings) => {
     const result = {};
-    for (const site of sites) {
-        const domain = site[0];
-        const interval = site[1];
-        const wobble = site[2];
-        result[domain] = makeSiteSetting(domain, interval, wobble);
+    for (const siteSetting of siteSettings) {
+        result[siteSetting.domain] = siteSetting;
     }
     return result;
-};
+}
 
 const makeVersionedSettings = (sites) => {
     return {
@@ -63,7 +57,7 @@ const getSettings = (callback) => {
         if (Object.keys(s.v1).length > 0) {
             // s.v1 is already what we want.
         } else {
-            s = makeVersionedSettings(makeSiteSettings(DEFAULT_SITES));
+            s = makeVersionedSettings({});
         }
         callback(s.v1);
     });
@@ -75,8 +69,8 @@ const setVersionedSettings = (sites, callback) => {
     chrome.storage.sync.set(settings, callback);
 }
 
-const setSettings = (sites, callback) => {
-    setVersionedSettings(makeSiteSettings(sites), callback);
+const setSettings = (siteSettings, callback) => {
+    setVersionedSettings(sitesFromSiteSettings(siteSettings), callback);
 }
 
 /**
@@ -93,15 +87,10 @@ const addModifySiteSetting = (siteSetting, callback) => {
     });
 };
 
-// TODO(dburger): this should accept array of siteSettings so that the validation
-// can be separated back to the caller.
-const addModifySiteSettings = (sites, callback) => {
+const addModifySiteSettings = (siteSettings, callback) => {
     getSettings(settings => {
-        for (const site of sites) {
-            const domain = site[0];
-            const interval = site[1];
-            const wobble = site[2];
-            settings.sites[domain] = makeSiteSetting(domain, interval, wobble);
+        for (const siteSetting of siteSettings) {
+            settings.sites[siteSetting.domain] = siteSetting;
         }
         setVersionedSettings(settings.sites, callback);
     });

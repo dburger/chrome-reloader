@@ -145,16 +145,16 @@ document.addEventListener("DOMContentLoaded", (evt) => {
     const batchAddButton = document.getElementById("batchAdd");
 
     saveButton.addEventListener("click", (evt) => {
-        const sites = [];
+        const siteSettings = [];
         for (let i = 0; i < sitesBody.childNodes.length; i++) {
             const row = sitesBody.childNodes[i];
             const domain = row.childNodes[1].childNodes[0].value;
             const interval = parseInt(row.childNodes[2].childNodes[0].value);
             const wobble = parseInt(row.childNodes[3].childNodes[0].value);
-            sites.push([domain, interval, wobble]);
+            siteSettings.push(makeSiteSetting(domain, interval, wobble));
         }
 
-        setSettings(sites, () => {
+        setSettings(siteSettings, () => {
             if (chrome.runtime.lastError) {
                 window.alert(chrome.runtime.lastError.message);
             }
@@ -181,7 +181,7 @@ document.addEventListener("DOMContentLoaded", (evt) => {
     });
 
     batchAddButton.addEventListener("click", (evt) => {
-        const sites = [];
+        const siteSettings = [];
         for (const line of batchText.value.split("\n")) {
             const parts = line.split(" ");
             if (parts.length !== 3) {
@@ -190,9 +190,9 @@ document.addEventListener("DOMContentLoaded", (evt) => {
             const domain = parts[0];
             const interval = parseInt(parts[1]);
             const wobble = parseInt(parts[2]);
-            sites.push([domain, interval, wobble]);
+            siteSettings.push(makeSiteSetting(domain, interval, wobble));
         }
-        addModifySiteSettings(sites, () => {
+        addModifySiteSettings(siteSettings, () => {
             if (chrome.runtime.lastError) {
                 window.alert(chrome.runtime.lastError.message);
             }
