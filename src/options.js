@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", (evt) => {
     const sitesBody = getSitesBody();
 
     const batchText = document.getElementById("batchText");
-    const batchAddButton = document.getElementById("batchAdd");
+    const batchAddModifyButton = document.getElementById("batchAddModify");
 
     saveButton.addEventListener("click", (evt) => {
         const excs = [];
@@ -185,7 +185,7 @@ document.addEventListener("DOMContentLoaded", (evt) => {
         }
     });
 
-    batchAddButton.addEventListener("click", (evt) => {
+    batchAddModifyButton.addEventListener("click", (evt) => {
         const excs = [];
         const siteSettings = [];
         for (const line of batchText.value.split("\n")) {
