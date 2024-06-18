@@ -145,6 +145,7 @@ document.addEventListener("DOMContentLoaded", (evt) => {
     const batchAddButton = document.getElementById("batchAdd");
 
     saveButton.addEventListener("click", (evt) => {
+        const excs = [];
         const siteSettings = [];
         for (let i = 0; i < sitesBody.childNodes.length; i++) {
             const row = sitesBody.childNodes[i];
@@ -154,15 +155,19 @@ document.addEventListener("DOMContentLoaded", (evt) => {
             try {
                 siteSettings.push(makeSiteSetting(domain, interval, wobble));
             } catch (exc) {
-                console.log("siteSetting was invalid and was ignored.");
+                excs.push(exc);
             }
         }
 
-        setSettings(siteSettings, () => {
-            if (chrome.runtime.lastError) {
-                window.alert(chrome.runtime.lastError.message);
-            }
-        });
+        if (excs.length > 0) {
+            alertInvalidSiteSettings("No changes were applied.", ...excs);
+        } else {
+            setSettings(siteSettings, () => {
+                if (chrome.runtime.lastError) {
+                    window.alert(chrome.runtime.lastError.message);
+                }
+            });
+        }
     });
 
     reloadButton.addEventListener("click", (evt) => {
