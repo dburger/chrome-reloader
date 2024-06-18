@@ -185,6 +185,7 @@ document.addEventListener("DOMContentLoaded", (evt) => {
     });
 
     batchAddButton.addEventListener("click", (evt) => {
+        const excs = [];
         const siteSettings = [];
         for (const line of batchText.value.split("\n")) {
             const parts = line.split(" ");
@@ -197,13 +198,18 @@ document.addEventListener("DOMContentLoaded", (evt) => {
             try {
                 siteSettings.push(makeSiteSetting(domain, interval, wobble));
             } catch (exc) {
-                console.log("siteSetting was invalid and was ignored.");
+                excs.push(exc);
             }
         }
+
         addModifySiteSettings(siteSettings, () => {
             if (chrome.runtime.lastError) {
                 window.alert(chrome.runtime.lastError.message);
             }
         });
+
+        if (excs.length > 0) {
+            alertInvalidSiteSettings("These specific batch updates were ignored.", ...excs);
+        }
     });
 });
