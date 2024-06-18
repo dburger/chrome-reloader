@@ -23,7 +23,7 @@ const randomInt = (max) => {
 
 class InvalidSiteSettingError extends Error {
     constructor(domain, interval, wobble, problems) {
-        super(`Site setting with domain ${domain}, interval ${interval}, and wobble ${wobble} is invalid.`);
+        super(`${domain}, interval ${interval}, wobble ${wobble} is invalid`);
         this.problems = problems;
     }
 }
@@ -41,6 +41,23 @@ const validateSiteSetting = (domain, interval, wobble) => {
     }
     return errors;
 };
+
+const makeInvalidSiteSettingsMessage = (exc) => {
+    const result = [];
+    result.push(`${exc.message}:`);
+    for (const p of exc.problems) {
+        result.push(`     ${p}`);
+    }
+    return result.join("\n");
+}
+
+const alertInvalidSiteSettings = (...excs) => {
+    const messages = [];
+    for (const exc of excs) {
+        messages.push(makeInvalidSiteSettingsMessage(exc));
+    }
+    window.alert(messages.join("\n"));
+}
 
 /**
  * Returns the site settings literal object for the given domain. This is

@@ -31,7 +31,7 @@ chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
                 }
             });
         } catch (exc) {
-            console.log("siteSetting was invalid and was ignored.");
+            alertInvalidSiteSettings(exc);
         }
     });
 
