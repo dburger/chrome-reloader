@@ -51,11 +51,13 @@ const makeInvalidSiteSettingsMessage = (exc) => {
     return result.join("\n");
 }
 
-const alertInvalidSiteSettings = (...excs) => {
+const alertInvalidSiteSettings = (message, ...excs) => {
     const messages = [];
     for (const exc of excs) {
         messages.push(makeInvalidSiteSettingsMessage(exc));
     }
+    messages.push("\n");
+    messages.push(message);
     window.alert(messages.join("\n"));
 }
 

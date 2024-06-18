@@ -31,7 +31,7 @@ chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
                 }
             });
         } catch (exc) {
-            alertInvalidSiteSettings(exc);
+            alertInvalidSiteSettings("The modification was not applied.", exc);
         }
     });
 
