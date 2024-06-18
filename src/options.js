@@ -202,14 +202,14 @@ document.addEventListener("DOMContentLoaded", (evt) => {
             }
         }
 
-        addModifySiteSettings(siteSettings, () => {
-            if (chrome.runtime.lastError) {
-                window.alert(chrome.runtime.lastError.message);
-            }
-        });
-
         if (excs.length > 0) {
-            alertInvalidSiteSettings("These specific batch updates were ignored.", ...excs);
+            alertInvalidSiteSettings("No batch updates were applied.", ...excs);
+        } else {
+            addModifySiteSettings(siteSettings, () => {
+                if (chrome.runtime.lastError) {
+                    window.alert(chrome.runtime.lastError.message);
+                }
+            });
         }
     });
 });
