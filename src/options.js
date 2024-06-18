@@ -165,6 +165,8 @@ document.addEventListener("DOMContentLoaded", (evt) => {
                 if (chrome.runtime.lastError) {
                     window.alert(chrome.runtime.lastError.message);
                 }
+                // When the save button is clicked, it saves what is visible.
+                // Therefore, there is no reason to reload the settings.
             });
         }
     });
@@ -208,6 +210,9 @@ document.addEventListener("DOMContentLoaded", (evt) => {
                 if (chrome.runtime.lastError) {
                     window.alert(chrome.runtime.lastError.message);
                 }
+                // Batch update augments what is already present. Therefore, reload
+                // so the user gets the new reality.
+                getSettings(loadSettings);
             });
         }
     });
