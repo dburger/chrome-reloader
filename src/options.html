@@ -8,6 +8,15 @@
     <body>
     <h1>Chrome Reloader Options</h1>
 
+    <p>
+        Refresh interval is the interval between each reload. Wobble defines
+        how to vary the refresh interval. A random value is subtracted from
+        the interval from 0 up to the wobble value. For example, an interval
+        of 300 with a wobble of 60 would mean that the site would be reloaded
+        randomly at intervals anywhere from 4 to 5 minutes. A wobble of 0 means
+        that the interval is strictly followed with no variation.
+    </p>
+
     <div>
         <button id="save">Save</button>
         <button id="reload">Reload</button>
