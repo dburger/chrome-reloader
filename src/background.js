@@ -99,4 +99,11 @@ const syncSites = () => {
     setTimeout(syncSites, seconds2Millis(SYNC_INTERVAL));
 };
 
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.action === OPEN_OPTIONS_PAGE) {
+        chrome.runtime.openOptionsPage();
+    }
+    sendResponse({result: "OK"});
+});
+
 syncSites();

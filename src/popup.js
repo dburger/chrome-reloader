@@ -5,6 +5,7 @@ const saveButton = document.getElementById("save");
 const deleteButton = document.getElementById("delete");
 const defaultsButton = document.getElementById("defaults");
 const cancelButton = document.getElementById("cancel");
+const optionsPageLink = document.getElementById("optionsPage");
 
 defaultsButton.addEventListener("click", (evt) => {
     intervalText.value = DEFAULT_INTERVAL;
@@ -13,7 +14,14 @@ defaultsButton.addEventListener("click", (evt) => {
 
 cancelButton.addEventListener("click", (evt) => {
     window.close();
-})
+});
+
+optionsPageLink.addEventListener("click", (evt) => {
+    const message = {action: OPEN_OPTIONS_PAGE};
+    chrome.runtime.sendMessage(message, (resp) => {
+        console.log(`${message.action} result ${resp.result}`);
+    });
+});
 
 chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
     const domain = new URL(tabs[0].url).host;

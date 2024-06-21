@@ -1,6 +1,9 @@
 const DEFAULT_INTERVAL = 300;
 const DEFAULT_WOBBLE = 60;
 
+// Action constants for sendMessage calls.
+const OPEN_OPTIONS_PAGE = "optionsPage";
+
 /**
  * Returns the milliseconds value for the given seconds.
  *
