@@ -1,0 +1,2 @@
+sportsbook.draftkings.com 300 60
+sportsbook.fanduel.com 300 60
