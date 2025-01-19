@@ -62,6 +62,10 @@ const reload = (domain, interval, wobble) => {
     scheduleReload(domain, interval, wobble);
 };
 
+const logStatus = (status, domain, siteSettings) => {
+    console.log(status, domain, `(${siteSettings.interval}, ${siteSettings.wobble})`);
+};
+
 /**
  * Syncs the sites map with sites from the current settings.
  */
@@ -78,12 +82,13 @@ const syncSites = () => {
                 if (siteStatus.interval !== siteSettings.interval || siteStatus.wobble !== siteSettings.wobble) {
                     siteStatus.interval = siteSettings.interval;
                     siteStatus.wobble = siteSettings.wobble;
-                    console.log(domain, ":", "interval and/or wobble change");
+                    logStatus("updating", domain, siteSettings);
+                } else {
+                    logStatus("keeping", domain, siteSettings);
                 }
             } else {
-                // add the site
+                logStatus("adding", domain, siteSettings);
                 scheduleReload(domain, siteSettings.interval, siteSettings.wobble);
-                console.log(domain, ":", "reload timeout added");
             }
         }
 
@@ -92,7 +97,7 @@ const syncSites = () => {
             if (!settings.sites[domain]) {
                 clearTimeout(siteStatus.timeoutId);
                 sites.delete(domain);
-                console.log(domain, ":", "reload timeout cleared");
+                console.log("removing", domain, `(${siteSettings.timeout}, ${siteSettings.wobble})`);
             }
         }
     });
