@@ -1,6 +1,6 @@
 {
   "name": "Chrome Reloader",
-  "version": "0.0.1.2",
+  "version": "0.0.2.0",
   "description": "Chrome reloader.",
   "icons": {
     "48": "icon48.png",
