@@ -54,3 +54,8 @@ button:disabled, input[type="submit"]:disabled {
     background-color: #cccccc;
     cursor: not-allowed;
 }
+
+/* We don't use type="number" because we don't want those arrows. */
+input[type="text"].numeric {
+    text-align: right;
+}

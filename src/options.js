@@ -25,12 +25,16 @@ const createDeleteRowTd = () => {
  * Creates and returns an input of type text with the given value.
  *
  * @param value {string} - The value to give the text input.
+ * @param className {string} - The class name to give the input, if any.
  * @returns {HTMLInputElement} - The created text input.
  */
-const createInputText = (value) => {
+const createInputText = (value, className) => {
     const input = document.createElement("input");
     input.setAttribute("type", "text");
     input.value = value;
+    if (className) {
+        input.className = className;
+    }
     return input;
 };
 
@@ -51,15 +55,12 @@ const createTextTd = (text) => {
  * the given value.
  *
  * @param value {string} - The value to give the text input element.
- * @param className {string} - The class name to give the td, if any.
+ * @param className {string} - The class name to give the input, if any.
  * @returns {HTMLTableCellElement} - The created td element.
  */
 const createInputTd = (value, className) => {
     const td = document.createElement("td");
-    td.appendChild(createInputText(value));
-    if (className) {
-        td.className = className;
-    }
+    td.appendChild(createInputText(value, className));
     return td;
 }
 
@@ -75,8 +76,8 @@ const createSitesRow = (domain, interval, wobble) => {
     const tr = document.createElement("tr");
     tr.appendChild(createDeleteRowTd());
     tr.appendChild(createInputTd(domain));
-    tr.appendChild(createInputTd(interval));
-    tr.appendChild(createInputTd(wobble));
+    tr.appendChild(createInputTd(interval, "numeric"));
+    tr.appendChild(createInputTd(wobble, "numeric"));
     return tr;
 };
 
