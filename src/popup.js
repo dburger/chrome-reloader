@@ -25,7 +25,7 @@ optionsPageLink.addEventListener("click", (evt) => {
 
 chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
     const domain = new URL(tabs[0].url).host;
-    title.innerText = domain;
+    title.appendChild(document.createTextNode(domain));
 
     saveButton.addEventListener("click", (evt) => {
         const interval = parseInt(intervalText.value);
