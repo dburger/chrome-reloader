@@ -59,3 +59,7 @@ button:disabled, input[type="submit"]:disabled {
 input[type="text"].numeric {
     text-align: right;
 }
+
+div.button-group {
+    white-space: nowrap;
+}
