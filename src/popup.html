@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
+    <link rel="stylesheet" href="popup.css">
+    <link rel="stylesheet" href="common.css">
 </head>
     <body>
         <h1 id="title"></h1>
@@ -12,22 +14,26 @@
             </thead>
             <tbody>
                 <tr>
-                    <th>Interval</th><td><input type="text" id="interval"></td>
+                    <th>Interval:</th><td><input type="text" id="interval"></td>
                 </tr>
                 <tr>
-                    <th>Wobble</th><td><input type="text" id="wobble"></td>
+                    <th>Wobble:</th><td><input type="text" id="wobble"></td>
                 </tr>
             </tbody>
         </table>
 
-        <div>
-            <button id="save">Save</button>
-            <button id="delete">Delete</button>
-            <button id="defaults">Defaults</button>
-            <button id="cancel">Cancel</button>
-        </div>
+        <p>
+            <div class="button-group">
+                <button id="save">Save</button>
+                <button id="delete">Delete</button>
+                <button id="defaults">Defaults</button>
+                <button id="cancel">Cancel</button>
+            </div>
+        </p>
 
-        <a href="#" id="optionsPage">Open Full Options Page</a>
+        <p>
+            <a href="#" id="optionsPage">Full Options Page</a>
+        </p>
     </body>
     <script src="common.js"></script>
     <script src="popup.js"></script>

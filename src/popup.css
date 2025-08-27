@@ -1,0 +1,11 @@
+input[type="text"] {
+    text-align: right;
+}
+
+div.button-group {
+    white-space: nowrap;
+}
+
+button {
+    width: 100px;
+}
